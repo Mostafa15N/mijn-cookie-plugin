@@ -15,6 +15,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 class GCC_Plugin {
 
     /**
+     * Admin class instance.
+     *
+     * @var GCC_Admin
+     */
+    private $admin;
+
+    /**
      * Initialize plugin functionality.
      *
      * @return void
@@ -32,7 +39,9 @@ class GCC_Plugin {
      */
     private function load_dependencies() {
 
-        // Future includes.
+        require_once GCC_PLUGIN_PATH . 'admin/class-gcc-admin.php';
+
+        $this->admin = new GCC_Admin();
     }
 
     /**
@@ -43,6 +52,16 @@ class GCC_Plugin {
     private function register_hooks() {
 
         add_action( 'init', array( $this, 'load_textdomain' ) );
+
+        add_action(
+            'admin_menu',
+            array( $this->admin, 'register_admin_menu' )
+        );
+
+        add_action(
+            'admin_init',
+            array( $this->admin, 'register_settings' )
+        );
     }
 
     /**

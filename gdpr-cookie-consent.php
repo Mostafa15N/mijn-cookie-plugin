@@ -5,7 +5,6 @@
  * Description: Lightweight GDPR/AVG cookie consent plugin for WordPress.
  * Version: 1.0.0
  * Author: Your Name
- * Author URI: https://example.com
  * Text Domain: mijn-cookie-plugin
  * Domain Path: /languages
  *
@@ -37,12 +36,26 @@ define( 'GCC_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'GCC_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 
 /**
- * Load main plugin class.
+ * Load required files.
  */
+require_once GCC_PLUGIN_PATH . 'includes/class-gcc-activator.php';
+require_once GCC_PLUGIN_PATH . 'includes/class-gcc-deactivator.php';
 require_once GCC_PLUGIN_PATH . 'includes/class-gcc-plugin.php';
 
 /**
+ * Plugin activation.
+ */
+register_activation_hook( __FILE__, array( 'GCC_Activator', 'activate' ) );
+
+/**
+ * Plugin deactivation.
+ */
+register_deactivation_hook( __FILE__, array( 'GCC_Deactivator', 'deactivate' ) );
+
+/**
  * Initialize plugin.
+ *
+ * @return void
  */
 function gcc_init_plugin() {
 
